@@ -1,14 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Deep Link Tester</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Response</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .success {
+            color: green;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .failure {
+            color: red;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test Scheme-Based Deep Link</h1>
-    <a href="hmsapp://payment-success">Open App (Deep Link)</a>
+    <h1>Payment Status</h1>
+    <div id="responseMessage"></div>
+    <div id="actionButton"></div>
+
     <script>
-        // Tự động mở ứng dụng khi truy cập trang
-        window.location.href = "hmsapp://payment-success";
+        // Lấy URL hiện tại
+        const urlParams = new URLSearchParams(window.location.search);
+
+        // Lấy giá trị của tham số `vnp_ResponseCode`
+        const responseCode = urlParams.get('vnp_ResponseCode');
+
+        // Hiển thị thông báo và nút bấm tương ứng
+        const responseMessage = document.getElementById('responseMessage');
+        const actionButton = document.getElementById('actionButton');
+
+        if (responseCode === '00') {
+            responseMessage.innerHTML = '<p class="success">Thanh toán thành công!</p>';
+            actionButton.innerHTML = '<a href="hmsapp://payment-success?code=00">Open App (Deep Link)</a>';
+        } else {
+            responseMessage.innerHTML = '<p class="failure">Thanh toán thất bại.</p>';
+            actionButton.innerHTML = '<a href="hmsapp://payment-success?code=11">Open App (Deep Link)</a>';
+        }
     </script>
 </body>
 </html>
